@@ -1,24 +1,29 @@
 import pandas as pd
-import mysql.connector
 from datetime import datetime
+import pymysql
+from config import MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE
+
 
 # Load extracted data
 df = pd.read_csv("raw_data/metrobike_raw.csv")
 
 # Connect to MySQL DW
-conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="yourpassword",
-    database="metrobike_dw"
+conn = pymysql.connect(
+    host=MYSQL_HOST,
+    user=MYSQL_USER,
+    password=MYSQL_PASSWORD,
+    database=MYSQL_DATABASE,
+    charset="utf8mb4",
+    cursorclass=pymysql.cursors.Cursor
 )
+
 cursor = conn.cursor()
 
 # LOAD dim_date
 date_values = df["checkout_date"].dropna().drop_duplicates()
 
 for date_str in date_values:
-    full_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    full_date = pd.to_datetime(date_str).date()
     year = full_date.year
     quarter = (full_date.month - 1) // 3 + 1
     month = full_date.month
