@@ -32,7 +32,7 @@ print("Saved filtered data:", len(df), "rows")
 
 # Upload to S3
 s3 = boto3.client("s3")
-bucket_name = "cis9440-assignment-metrobike"
+bucket_name = "cis9440-metrobike"
 s3_key = "raw/metrobike_raw.csv"
 
 s3.upload_file(local_path, bucket_name, s3_key)

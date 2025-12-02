@@ -1,7 +1,7 @@
 # this is to upload to s3 only without re-extracting data
 import boto3
 
-bucket_name = "cis9440-assignment-metrobike"
+bucket_name = "cis9440-metrobike"
 file_path = "raw_data/metrobike_raw.csv"
 s3_key = "raw/metrobike_raw.csv"
 
