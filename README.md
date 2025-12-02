@@ -66,3 +66,26 @@ This script:
 ## ETL Script:
 `scripts/load_dw.py`
 Loads the dimension tables and fact table
+
+## How to Recreate the Redshift and QuickSight Setup
+`create_redshift_metrobike.sql`
+1. Set up the Redshift tables
+This creates the schema, staging table, all dimension tables, and the fact table.
+
+2. Upload the raw CSV to S3
+Put metrobike_raw.csv into your S3 bucket under:
+s3://<your-bucket-name>/raw/metrobike_raw.csv
+
+Make sure your Redshift IAM role can read from this bucket!
+
+3. Load the data
+`load_redshift_metrobike.sql`
+This copies the raw data into the staging table and then fills the dimensions and fact table.
+
+4. Connect QuickSight to Redshift
+In QuickSight, create a new dataset and choose Redshift as the source.
+Enter your cluster info and connect to the metrobike schema.
+Select the fact table and join it with the four dimension tables.
+
+5. Build the visuals!
+Use fields from the fact table and dimensions (date, membership, bike type, kiosk, etc.).
